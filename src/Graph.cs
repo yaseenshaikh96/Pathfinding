@@ -36,17 +36,6 @@ public class Graph<T>
 
     public void Connect(Node connector, params Connection[] connections)
     {
-        // if (!nodes.Contains(connector)) { PrintError("Node to connect not in graph"); return; }
-        // foreach (Connection connection in connections)
-        // {
-        //     Node neighbourNode = connection.node;
-        //     if (connector == neighbourNode) { PrintError("node cannot connect to itself"); continue; }
-        //     if (connector.IsConnected(neighbourNode)) { PrintError("connecting an already connected node"); continue; }
-        //     if (!nodes.Contains(neighbourNode)) { PrintError("connecting node which is not in graph"); continue; }
-
-        //     connector.connections.Add(new Connection(neighbourNode, connection.weight));
-        //     neighbourNode.connections.Add(new Connection(connector, connection.weight));
-        // }
         if (!nodes.Contains(connector)) { PrintError("connecting node which is not in graph"); return; }
         foreach (Connection connection in connections)
         {
