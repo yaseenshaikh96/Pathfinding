@@ -1,5 +1,6 @@
 public class Graph<T>
 {
+    public const int defaultWeight = 1;
     private List<Node> nodes;
 
     public Graph()
@@ -57,7 +58,7 @@ public class Graph<T>
     public void Connect(Node connector, params Node[] connecting)
     {
         foreach (var connectingNode in connecting)
-            Connect(connector, connectingNode, 0);
+            Connect(connector, connectingNode, defaultWeight);
     }
 
     public bool IsNodeInGraph(Node node)
@@ -90,20 +91,40 @@ public class Graph<T>
     //     return visited.Length != nodes.ToArray().Length;
     // }
 
+    //--------------------------------------------------------------------------------------------//
+
     public void PrintGraph()
     {
         System.Console.Write($"# of nodes: {nodes.Count}\n");
         foreach (var node in nodes)
         {
-            System.Console.Write("Name: " + node.name + ", ");
-            System.Console.Write("Data: " + node.data + ", ");
+            System.Console.Write("Name: ");
+            PrintNodeName(node.name);
+            System.Console.Write(", ");
+            System.Console.Write("Data: " + node.data?.ToString() + ", ");
             System.Console.Write("Connections: ");
             foreach (Graph<T>.Connection connection in node.connections)
-                System.Console.Write($"({connection.node.name}, {connection.weight})");
-            // System.Console.Write("weight: " + connection.weight + ", For: " + connection.node.name + ", ");
-
+                PrintConnection(connection);
             System.Console.Write("\n");
         }
+        static void PrintConnection(Connection connection)
+        {
+            System.Console.Write("(");
+            System.Console.ForegroundColor = ConsoleColor.Green;
+            System.Console.Write(connection.node.name);
+            System.Console.ResetColor();
+            System.Console.Write(", ");
+            System.Console.ForegroundColor = ConsoleColor.Blue;
+            System.Console.Write(connection.weight);
+            System.Console.ResetColor();
+            System.Console.Write(") ");
+        }
+    }
+    private static void PrintNodeName(string nodeName)
+    {
+        System.Console.ForegroundColor = ConsoleColor.Green;
+        System.Console.Write(nodeName);
+        System.Console.ResetColor();
     }
 
     private static void PrintError(string err)
@@ -111,6 +132,18 @@ public class Graph<T>
         System.Console.ForegroundColor = ConsoleColor.DarkRed;
         System.Console.WriteLine(err);
         System.Console.ResetColor();
+    }
+
+    public static void PrintPath(List<Graph<T>.Node> path)
+    {
+        System.Console.Write("path: ");
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            PrintNodeName(path[i].name);
+            System.Console.Write(" -> ");
+        }
+        PrintNodeName(path[path.Count - 1].name);
+        System.Console.Write('\n');
     }
 
     //---------------------------------------------------//
@@ -149,7 +182,7 @@ public class Graph<T>
         public Node node;
         public float weight;
 
-        public Connection(Node neighbour, float weight = 1)
+        public Connection(Node neighbour, float weight = defaultWeight)
         {
             this.node = neighbour;
             this.weight = weight;
