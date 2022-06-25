@@ -1,59 +1,50 @@
+public enum SearchType { BFS, DFS }
+
 public class Program
 {
+    private static SearchType searchType = SearchType.DFS;
+    private static bool printEnqueueCount = true;
+
     public static void Main(string[] args)
     {
-        BFSDFSGraph();
-    }
-
-
-    public static void DefaultGraph()
-    {
-        Graph<int> graph = new Graph<int>();
-        Graph<int>.Node A = graph.CreateNode("A");
-        Graph<int>.Node B = graph.CreateNode("B");
-        Graph<int>.Node C = graph.CreateNode("C");
-        Graph<int>.Node D = graph.CreateNode("D");
-        Graph<int>.Node E = graph.CreateNode("E");
-        graph.Connect(A, B, C);
-        graph.Connect(B, D);
-        graph.DeleteNode(B);
+        Graph<int>? graph = ExampleGraph.ExampleGraph5();
+        if (graph == null)
+        {
+            System.Console.Write("Graph is null");
+            return;
+        }
         graph.PrintGraph();
-    }
-    public static void FancyGraph()
-    {
-        Graph<int> graph = new Graph<int>();
-        Graph<int>.Node[]? nodes = graph.CreateNodeMulti(5);
-        if (nodes == null) return;
-        graph.Connect(nodes[0], nodes[1], nodes[2]);
-        graph.Connect(nodes[1], nodes[3]);
-        graph.DeleteNode(nodes[1]);
-        graph.PrintGraph();
-    }
-    public static void BFSDFSGraph()
-    {
-        Graph<int> graph = new Graph<int>();
-        Graph<int>.Node A = graph.CreateNode("A");
-        Graph<int>.Node B = graph.CreateNode("B");
-        Graph<int>.Node C = graph.CreateNode("C");
-        Graph<int>.Node D = graph.CreateNode("D");
-        Graph<int>.Node E = graph.CreateNode("E");
-        graph.Connect(A, B, C);
-        graph.Connect(B, D);
-        graph.PrintGraph();
-
-        List<Graph<int>.Node>? path = Search.DFS(graph, D, A);
+        System.Console.WriteLine("SearchType: " + searchType.ToString());
+        var path = SearchGraph(graph, graph.GetNodes()[4]);
         if (path == null)
-            System.Console.Write("path is null");
-        else
-            Graph<int>.PrintPath(path);
+        {
+            System.Console.Write("Path is null");
+            return;
+        }
+        Graph<int>.PrintPath(path);
     }
-    public static void NullGraph()
+
+    private static List<Graph<T>.Node>? SearchGraph<T>(
+        Graph<T> graph,
+        Graph<T>.Node endingNode,
+        Graph<T>.Node? startingNode = null)
     {
-        Graph<int[]> graph = new Graph<int[]>();
-        Graph<int[]>.Node[]? nodes = graph.CreateNodeMulti(5);
-        if (nodes == null) return;
-        graph.Connect(nodes[0], nodes[1], nodes[2]);
-        graph.Connect(nodes[1], nodes[3]);
-        graph.PrintGraph();
+        if (startingNode == null)
+            startingNode = graph.GetNodes()[0];
+
+        List<Graph<T>.Node>? path;
+        switch (searchType)
+        {
+            case SearchType.BFS:
+                path = Search.BFS(graph, endingNode, printEnqueueCount, startingNode);
+                break;
+            case SearchType.DFS:
+                path = Search.DFS(graph, endingNode, printEnqueueCount, startingNode);
+                break;
+            default:
+                path = null;
+                break;
+        }
+        return path;
     }
 }

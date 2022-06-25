@@ -7,6 +7,18 @@ public class Graph<T>
     {
         this.nodes = new List<Node>();
     }
+    public Graph(GraphData graphData)
+    {
+        this.nodes = new List<Node>();
+        int numOfNodes = graphData.values.GetLength(0);
+        CreateNodeMulti(numOfNodes);
+        if (nodes.Count < 1) { PrintError("GraphData empty"); return; }
+
+        for (int x = 0; x < nodes.Count; x++)
+            for (int y = 0; y < nodes.Count; y++)
+                if (graphData.values[x, y] > 0)
+                    Connect(nodes[x], nodes[y], graphData.values[x, y]);
+    }
 
     public Node CreateNode(string nodeName, T? data = default(T), params Connection[] connections)
     {
@@ -29,7 +41,7 @@ public class Graph<T>
         if (numOfNodes < 1) { PrintError("cannot create non-positive number of nodes"); return null; }
         List<Node> nodeList = new List<Node>();
         for (int i = 0; i < numOfNodes; i++)
-            nodeList.Add(CreateNode(i.ToString()));
+            nodeList.Add(CreateNode("Node" + i.ToString()));
         return nodeList.ToArray();
     }
 
