@@ -196,6 +196,14 @@ public class Graph<T>
         {
             return EqualityComparer<T>.Default.Equals(this.data, node2.data);
         }
+
+        public float? GetConnectionWeight(Node node2)
+        {
+            foreach (Connection connection in connections)
+                if (connection.node == node2)
+                    return connection.weight;
+            return null;
+        }
     }
 
     public class Connection

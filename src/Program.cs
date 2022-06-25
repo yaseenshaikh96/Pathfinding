@@ -1,13 +1,13 @@
-public enum SearchType { BFS, DFS }
+public enum SearchType { BFS, DFS, GREEDY }
 
 public class Program
 {
-    private static SearchType searchType = SearchType.DFS;
+    private static SearchType searchType = SearchType.GREEDY;
     private static bool printEnqueueCount = true;
 
     public static void Main(string[] args)
     {
-        Graph<int>? graph = ExampleGraph.ExampleGraph5();
+        Graph<int>? graph = ExampleGraph.ExampleGraph4();
         if (graph == null)
         {
             System.Console.Write("Graph is null");
@@ -15,7 +15,7 @@ public class Program
         }
         graph.PrintGraph();
         System.Console.WriteLine("SearchType: " + searchType.ToString());
-        var path = SearchGraph(graph, graph.GetNodes()[4]);
+        var path = SearchGraph(graph, graph.GetNodes()[6]);
         if (path == null)
         {
             System.Console.Write("Path is null");
@@ -40,6 +40,9 @@ public class Program
                 break;
             case SearchType.DFS:
                 path = Search.DFS(graph, endingNode, printEnqueueCount, startingNode);
+                break;
+            case SearchType.GREEDY:
+                path = Search.Greedy(graph, endingNode, printEnqueueCount, startingNode);
                 break;
             default:
                 path = null;

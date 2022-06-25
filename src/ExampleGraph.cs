@@ -22,7 +22,7 @@ public static class ExampleGraph
         Graph<int>.Node G = graph.CreateNode("G");
         graph.Connect(S, A, 3);
         graph.Connect(S, B, 5);
-        graph.Connect(A, B, 4);
+        graph.Connect(A, B, 2); // 2->4
         graph.Connect(A, D, 3);
         graph.Connect(B, C, 4);
         graph.Connect(D, G, 5);
