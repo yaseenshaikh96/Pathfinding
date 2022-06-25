@@ -6,6 +6,7 @@ public static class Search
         if (startingNode == null)
             startingNode = graph.GetNodes()[0];
 
+        List<Graph<T>.Node> visited = new List<Graph<T>.Node>();
         List<List<Graph<T>.Node>> pathList = new List<List<Graph<T>.Node>>();
         List<Graph<T>.Node> startingPath = new List<Graph<T>.Node>();
         startingPath.Add(startingNode);
@@ -18,11 +19,15 @@ public static class Search
 
             foreach (var connection in currentPath[currentPath.Count - 1].connections)
             {
+                if (visited.Contains(connection.node))
+                    continue;
+                visited.Add(connection.node);
                 List<Graph<T>.Node> newPath = new List<Graph<T>.Node>(currentPath);
                 newPath.Add(connection.node);
                 if (newPath[newPath.Count - 1] == endingNode)
                     return newPath;
                 pathList.Add(newPath);
+
                 enqueueCount++;
             }
         }
@@ -35,6 +40,7 @@ public static class Search
         if (startingNode == null)
             startingNode = graph.GetNodes()[0];
 
+        List<Graph<T>.Node> visited = new List<Graph<T>.Node>();
         List<List<Graph<T>.Node>> pathList = new List<List<Graph<T>.Node>>();
         List<Graph<T>.Node> startingPath = new List<Graph<T>.Node>();
         startingPath.Add(startingNode);
@@ -47,20 +53,17 @@ public static class Search
 
             foreach (var connection in currentPath[currentPath.Count - 1].connections)
             {
+                if (visited.Contains(connection.node))
+                    continue;
+                visited.Add(connection.node);
                 List<Graph<T>.Node> newPath = new List<Graph<T>.Node>(currentPath);
                 newPath.Add(connection.node);
                 if (newPath[newPath.Count - 1] == endingNode)
                 {
-                    // System.Console.Write("EnqueueCount: " + enqueueCount);
+                    System.Console.Write("enqueueCount: " + enqueueCount + '\n');
                     return newPath;
                 }
-                if (currentPath.Count == 1)                                 // all this to not
-                {                                                           // add parent node
-                    pathList.Insert(0, newPath);                            // to new path.
-                    continue;                                               //
-                }                                                           //
-                if (connection.node != currentPath[currentPath.Count - 2])  //
-                    pathList.Insert(0, newPath);                            //
+                pathList.Insert(0, newPath);
 
                 enqueueCount++;
             }

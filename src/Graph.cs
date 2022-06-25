@@ -101,7 +101,9 @@ public class Graph<T>
             System.Console.Write("Name: ");
             PrintNodeName(node.name);
             System.Console.Write(", ");
-            System.Console.Write("Data: " + node.data?.ToString() + ", ");
+            System.Console.Write("Data: ");
+            PrintNodeData(node.data);
+            System.Console.Write(", ");
             System.Console.Write("Connections: ");
             foreach (Graph<T>.Connection connection in node.connections)
                 PrintConnection(connection);
@@ -124,6 +126,13 @@ public class Graph<T>
     {
         System.Console.ForegroundColor = ConsoleColor.Green;
         System.Console.Write(nodeName);
+        System.Console.ResetColor();
+    }
+    private static void PrintNodeData(T? data)
+    {
+
+        System.Console.ForegroundColor = ConsoleColor.Yellow;
+        System.Console.Write(data?.ToString());
         System.Console.ResetColor();
     }
 
