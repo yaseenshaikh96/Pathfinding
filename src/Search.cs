@@ -1,5 +1,14 @@
 public static class Search
 {
+    public static List<Graph<T>.Node>? AStar<T>(
+        Graph<T> graph,
+        Graph<T>.Node endingNode,
+        bool printEnqueueCount,
+        Graph<T>.Node? startingNode = null)
+    {
+        return null;
+    }
+
     public static List<Graph<T>.Node>? Greedy<T>(
         Graph<T> graph,
         Graph<T>.Node endingNode,

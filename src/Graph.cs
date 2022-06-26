@@ -93,15 +93,7 @@ public class Graph<T>
             }
             connections.node.connections = connectionNeighbour;
         }
-
-        // if (IsGraphFragmented()) Utility.PrintError("graph got fragmented");
     }
-
-    // public bool IsGraphFragmented()
-    // {
-    //     Node[] visited = BFS.Traverse<T>(this);
-    //     return visited.Length != nodes.ToArray().Length;
-    // }
 
     //--------------------------------------------------------------------------------------------//
 
@@ -216,6 +208,5 @@ public class Graph<T>
             this.node = neighbour;
             this.weight = weight;
         }
-
     }
 }

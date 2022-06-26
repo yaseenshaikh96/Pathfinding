@@ -1,5 +1,18 @@
 public static class ExampleGraph
 {
+    // public static Graph<int> ExampleGraph7()
+    // {
+    //     Graph<int> graph = ExampleGraph4();
+
+    //     var nodes = graph.GetNodes();
+    //     nodes[0].data = ; // s
+    //     nodes[0].data = ; // a
+    //     nodes[0].data = ; // b
+    //     nodes[0].data = ; // c
+    //     nodes[0].data = ; // d
+    //     nodes[0].data = ; // e
+    //     nodes[0].data = 0; // g
+    // }
     public static Graph<int> ExampleGraph6()
     {
         GraphData graphData = new GraphData(8,
