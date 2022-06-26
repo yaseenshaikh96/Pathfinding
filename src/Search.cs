@@ -10,7 +10,6 @@ public static class Search
         if (startingNode == null)
             startingNode = graph.GetNodes()[0];
 
-        List<Graph<T>.Node> visited = new List<Graph<T>.Node>();
         List<List<Graph<T>.Node>> pathList = new List<List<Graph<T>.Node>>();
         List<Graph<T>.Node> startingPath = new List<Graph<T>.Node>();
         startingPath.Add(startingNode);
@@ -20,16 +19,15 @@ public static class Search
         {
             List<Graph<T>.Node> currentPath = pathList[0];
             pathList.RemoveAt(0);
-            List<List<Graph<T>.Node>> newPaths = new List<List<Graph<T>.Node>>();
 
             System.Console.Write("CurrentPath: ");
             Graph<T>.PrintPath(currentPath);
 
             foreach (var connection in currentPath[currentPath.Count - 1].connections)
             {
-                if (visited.Contains(connection.node))
-                    continue;
-                visited.Add(connection.node);
+                if (currentPath.Contains(connection.node))
+                    continue; // dont go back up the tree
+
                 List<Graph<T>.Node> newPath = new List<Graph<T>.Node>(currentPath);
                 newPath.Add(connection.node);
                 if (newPath[newPath.Count - 1] == endingNode)
@@ -37,45 +35,44 @@ public static class Search
                     if (printEnqueueCount) System.Console.WriteLine("EnqueueCount: " + enqueueCount);
                     return newPath;
                 }
-                newPaths.Add(newPath);
+                pathList.Add(newPath);
                 enqueueCount++;
             }
-            var newPathsArr = MySort(newPaths);
-            foreach (var newPath in newPathsArr)
-                pathList.Add(newPath);
+            MySort(pathList); // shortest path first
         }
         return null;
 
-        static List<Graph<T>.Node>[] MySort(List<List<Graph<T>.Node>> list)
+        static void MySort(List<List<Graph<T>.Node>> pathList)
         {
-            (List<Graph<T>.Node>, float)[] weightedPaths = new (List<Graph<T>.Node>, float)[list.Count];
-            // foreach (List<Graph<T>.Node> newPath in list)
-            for (int i2 = 0; i2 < list.Count; i2++)
+            float[] pathWeights = new float[pathList.Count];
+            for (int i2 = 0; i2 < pathList.Count; i2++)
             {
-                var newPath = list[i2];
+                var newPath = pathList[i2];
                 float totalPathAmount = 0;
                 for (int i = 0; i < newPath.Count - 1; i++)
                 {
                     float? weight = newPath[i].GetConnectionWeight(newPath[i + 1]);
                     totalPathAmount += weight == null ? 0 : (float)weight;
                 }
-                weightedPaths[i2] = ((newPath, totalPathAmount));
+                pathWeights[i2] = totalPathAmount;
             }
 
-            for (int i = 0; i < weightedPaths.Length - 1; i++)
-                for (int j = 0; j < weightedPaths.Length - i - 1; j++)
-                    if (weightedPaths[j].Item2 > weightedPaths[j + 1].Item2)
+            for (int i = 0; i < pathWeights.Length - 1; i++)
+                for (int j = 0; j < pathWeights.Length - i - 1; j++)
+                    if (pathWeights[j] > pathWeights[j + 1])
                     {
-                        var temp = weightedPaths[j];
-                        weightedPaths[j] = weightedPaths[j + 1];
-                        weightedPaths[j + 1] = temp;
+                        Swap(ref pathWeights[j], ref pathWeights[j + 1]);
+                        var temp2 = pathList[j];
+                        pathList[j] = pathList[j + 1];
+                        pathList[j + 1] = temp2;
                     }
 
-            List<List<Graph<T>.Node>> weightedPathsList = new List<List<Graph<T>.Node>>();
-            foreach (var weightedPath in weightedPaths)
-                weightedPathsList.Add(weightedPath.Item1);
-
-            return weightedPathsList.ToArray();
+            static void Swap<U>(ref U obj1, ref U obj2)
+            {
+                var temp2 = obj1;
+                obj1 = obj2;
+                obj2 = temp2;
+            }
         }
     }
 
@@ -89,7 +86,6 @@ public static class Search
         if (startingNode == null)
             startingNode = graph.GetNodes()[0];
 
-        List<Graph<T>.Node> visited = new List<Graph<T>.Node>();
         List<List<Graph<T>.Node>> pathList = new List<List<Graph<T>.Node>>();
         List<Graph<T>.Node> startingPath = new List<Graph<T>.Node>();
         startingPath.Add(startingNode);
@@ -102,9 +98,9 @@ public static class Search
 
             foreach (var connection in currentPath[currentPath.Count - 1].connections)
             {
-                if (visited.Contains(connection.node))
-                    continue;
-                visited.Add(connection.node);
+                if (currentPath.Contains(connection.node))
+                    continue; // dont go back up the tree
+
                 List<Graph<T>.Node> newPath = new List<Graph<T>.Node>(currentPath);
                 newPath.Add(connection.node);
                 if (newPath[newPath.Count - 1] == endingNode)
@@ -112,7 +108,7 @@ public static class Search
                     if (printEnqueueCount) System.Console.WriteLine("EnqueueCount: " + enqueueCount);
                     return newPath;
                 }
-                pathList.Add(newPath);
+                pathList.Add(newPath); // added at last, removed from front. A Queue 
 
                 enqueueCount++;
             }
@@ -130,7 +126,6 @@ public static class Search
         if (startingNode == null)
             startingNode = graph.GetNodes()[0];
 
-        List<Graph<T>.Node> visited = new List<Graph<T>.Node>();
         List<List<Graph<T>.Node>> pathList = new List<List<Graph<T>.Node>>();
         List<Graph<T>.Node> startingPath = new List<Graph<T>.Node>();
         startingPath.Add(startingNode);
@@ -143,9 +138,9 @@ public static class Search
 
             foreach (var connection in currentPath[currentPath.Count - 1].connections)
             {
-                if (visited.Contains(connection.node))
-                    continue;
-                visited.Add(connection.node);
+                if (currentPath.Contains(connection.node))
+                    continue; // dont go back up the tree
+
                 List<Graph<T>.Node> newPath = new List<Graph<T>.Node>(currentPath);
                 newPath.Add(connection.node);
                 if (newPath[newPath.Count - 1] == endingNode)
@@ -153,7 +148,7 @@ public static class Search
                     if (printEnqueueCount) System.Console.WriteLine("EnqueueCount: " + enqueueCount);
                     return newPath;
                 }
-                pathList.Insert(0, newPath);
+                pathList.Insert(0, newPath); // added at front, removed at front. A Stack
 
                 enqueueCount++;
             }

@@ -1,5 +1,18 @@
 public static class ExampleGraph
 {
+    public static Graph<int> ExampleGraph6()
+    {
+        GraphData graphData = new GraphData(8,
+        0, 0, 0, 0, 0, 0, 0, 0, // 1
+        1, 0, 0, 0, 0, 0, 0, 0, // 2
+        9, 0, 0, 0, 0, 0, 0, 0, // 3
+        0, 5, 0, 0, 0, 0, 0, 0, // 4
+        0, 5, 0, 0, 0, 0, 0, 0, // 5
+        0, 0, 0, 5, 0, 0, 0, 0, // 6
+        0, 0, 0, 5, 0, 0, 0, 0, // 7
+        0, 0, 1, 0, 0, 0, 5, 0);// 8
+        return new Graph<int>(graphData);
+    }
     public static Graph<int> ExampleGraph5()
     {
         GraphData graphData = new GraphData(5,
@@ -22,7 +35,7 @@ public static class ExampleGraph
         Graph<int>.Node G = graph.CreateNode("G");
         graph.Connect(S, A, 3);
         graph.Connect(S, B, 5);
-        graph.Connect(A, B, 2); // 2->4
+        graph.Connect(A, B, 4); // 2->4
         graph.Connect(A, D, 3);
         graph.Connect(B, C, 4);
         graph.Connect(D, G, 5);

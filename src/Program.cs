@@ -7,15 +7,16 @@ public class Program
 
     public static void Main(string[] args)
     {
-        Graph<int>? graph = ExampleGraph.ExampleGraph4();
+        Graph<int>? graph = ExampleGraph.ExampleGraph6();
         if (graph == null)
         {
             System.Console.Write("Graph is null");
             return;
         }
         graph.PrintGraph();
+
         System.Console.WriteLine("SearchType: " + searchType.ToString());
-        var path = SearchGraph(graph, graph.GetNodes()[6]);
+        var path = SearchGraph(graph, graph.GetNodes()[7]);
         if (path == null)
         {
             System.Console.Write("Path is null");
